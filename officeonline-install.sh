@@ -140,9 +140,9 @@ source "$ScriptFullPath/bin/systemSetup.sh"
 {
 # shellcheck source=/project/bin/corePrep.sh
 source "$ScriptFullPath/bin/corePrep.sh"
-} > >(tee -a ${log_dir}/LO-compilation.log) 2> >(tee -a ${log_dir}/LO-compilation.log >&2)
 # shellcheck source=/project/bin/coreBuild.sh
 source "$ScriptFullPath/bin/coreBuild.sh"
+} > >(tee -a ${log_dir}/LO-compilation.log) 2> >(tee -a ${log_dir}/LO-compilation.log >&2)
 ###############################################################################
 ############################# Poco Installation ###############################
 {
