@@ -13,7 +13,7 @@ SO BE PATIENT PLEASE! ! You may see errors during the installation, just ignore 
     clear
   fi
   {
-  cd ${lo_dir} || exit
+  cd ${lo_dir} || exit 1
   DistribFile clear
   DistribFile append $lo_configure_opts
   ${lo_mini} && DistribFile append $lo_mini_opts
@@ -22,7 +22,7 @@ SO BE PATIENT PLEASE! ! You may see errors during the installation, just ignore 
 
   # libreoffice take around 8/${cpu} hours to compile on fast cpu.
   # ${lo_forcebuild} && sudo -Hu cool make clean
-  if ! sudo -Hu cool make; then exit 2; fi
+  if ! sudo -Hu cool make; then exit 3; fi
   } > >(tee -a ${log_dir}/LO-compilation.log) 2> >(tee -a ${log_dir}/LO-compilation.log >&2)
 fi
 unset repChanged

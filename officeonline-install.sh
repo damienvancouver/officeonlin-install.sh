@@ -129,38 +129,65 @@ echo "Started at $(date +'%Y-%m-%d %H:%M:%S')" > ${log_dir}/timewatch.log
 trap whendiditstopped EXIT
 
 {
+echo "Started $ScriptFullPath/bin/systemChecks.sh at $(date +'%Y-%m-%d %H:%M:%S')" | tee -a ${log_dir}/timewatch.log
 # shellcheck source=/project/bin/systemChecks.sh
 source "$ScriptFullPath/bin/systemChecks.sh"
+echo "Exit $? from $ScriptFullPath/bin/systemChecks.sh at $(date +'%Y-%m-%d %H:%M:%S')" | tee -a ${log_dir}/timewatch.log
+
+echo "Started $ScriptFullPath/bin/systemSetup.sh at $(date +'%Y-%m-%d %H:%M:%S')"  | tee -a ${log_dir}/timewatch.log
 # shellcheck source=/project/bin/systemSetup.sh
 source "$ScriptFullPath/bin/systemSetup.sh"
+echo "Exit $? from $ScriptFullPath/bin/systemSetup.sh at $(date +'%Y-%m-%d %H:%M:%S')" | tee -a ${log_dir}/timewatch.log
+
 } > >(tee -a ${log_dir}/preparation.log) 2> >(tee -a ${log_dir}/preparation.log >&2)
 
 ###############################################################################
 ######################## libreoffice compilation ##############################
 {
+echo "Started $ScriptFullPath/bin/corePrep.sh at $(date +'%Y-%m-%d %H:%M:%S')" | tee -a ${log_dir}/timewatch.log
 # shellcheck source=/project/bin/corePrep.sh
 source "$ScriptFullPath/bin/corePrep.sh"
+echo "Exit $? from $ScriptFullPath/bin/corePrep.sh at $(date +'%Y-%m-%d %H:%M:%S')" | tee -a ${log_dir}/timewatch.log
+
+echo "Started $ScriptFullPath/bin/coreBuild.sh at $(date +'%Y-%m-%d %H:%M:%S')" | tee -a ${log_dir}/timewatch.log
 # shellcheck source=/project/bin/coreBuild.sh
 source "$ScriptFullPath/bin/coreBuild.sh"
+echo "Exit $? from $ScriptFullPath/bin/coreBuild.sh at $(date +'%Y-%m-%d %H:%M:%S')" | tee -a ${log_dir}/timewatch.log
+
 } > >(tee -a ${log_dir}/LO-compilation.log) 2> >(tee -a ${log_dir}/LO-compilation.log >&2)
 ###############################################################################
 ############################# Poco Installation ###############################
 {
+  echo "Started $ScriptFullPath/bin/pocoPrep.sh at $(date +'%Y-%m-%d %H:%M:%S')" | tee -a ${log_dir}/timewatch.log
   # shellcheck source=/project/bin/pocoPrep.sh
   source "$ScriptFullPath/bin/pocoPrep.sh"
+  echo "Exit $? from $ScriptFullPath/bin/pocoPrep.sh at $(date +'%Y-%m-%d %H:%M:%S')" | tee -a ${log_dir}/timewatch.log
+
+  echo "Started $ScriptFullPath/bin/pocoBuild.sh at $(date +'%Y-%m-%d %H:%M:%S')" | tee -a ${log_dir}/timewatch.log
   # shellcheck source=/project/bin/pocoBuild.sh
-  source "$ScriptFullPath/bin/pocoBuild.sh"
+    source "$ScriptFullPath/bin/pocoBuild.sh"
+  echo "Exit $? from $ScriptFullPath/bin/pocoBuild.sh at $(date +'%Y-%m-%d %H:%M:%S')" | tee -a ${log_dir}/timewatch.log
+
 } > >(tee -a ${log_dir}/POCO-compilation.log) 2> >(tee -a ${log_dir}/POCO-compilation.log >&2)
 
 ###############################################################################
 ########################### coolwsd Installation ##############################
 {
+  echo "Started $ScriptFullPath/bin/onlinePrep.sh at $(date +'%Y-%m-%d %H:%M:%S')" | tee -a ${log_dir}/timewatch.log
   # shellcheck source=/project/bin/onlinePrep.sh
   source "$ScriptFullPath/bin/onlinePrep.sh"
+  echo "Exit $? from $ScriptFullPath/bin/onlinePrep.sh at $(date +'%Y-%m-%d %H:%M:%S')" | tee -a ${log_dir}/timewatch.log
+
+  echo "Started $ScriptFullPath/bin/onlineBuild.sh at $(date +'%Y-%m-%d %H:%M:%S')" | tee -a ${log_dir}/timewatch.log
   # shellcheck source=/project/bin/onlineBuild.sh
   source "$ScriptFullPath/bin/onlineBuild.sh"
+  echo "Exit $? from $ScriptFullPath/bin/onlineBuild.sh at $(date +'%Y-%m-%d %H:%M:%S')" | tee -a ${log_dir}/timewatch.log
+
+  echo "Started $ScriptFullPath/bin/onlineInstall.sh at $(date +'%Y-%m-%d %H:%M:%S')" | tee -a ${log_dir}/timewatch.log
   # shellcheck source=/project/bin/onlineInstall.sh
   source "$ScriptFullPath/bin/onlineInstall.sh"
+  echo "Exit $? from $ScriptFullPath/bin/onlineInstall.sh at $(date +'%Y-%m-%d %H:%M:%S')" | tee -a ${log_dir}/timewatch.log
+
 } > >(tee -a ${log_dir}/cool-compilation.log) 2> >(tee -a ${log_dir}/cool-compilation.log >&2)
 ### Testing coolwsd ###
 if ${sh_interactive}; then
@@ -173,7 +200,10 @@ after that run (systemctl daemon-reload && systemctl restart $coolwsd_service_na
   clear
 fi
 {
+  echo "Started $ScriptFullPath/bin/onlineTests.sh at $(date +'%Y-%m-%d %H:%M:%S')" | tee -a ${log_dir}/timewatch.log
   # shellcheck source=/project/bin/onlineTests.sh
   source "$ScriptFullPath/bin/onlineTests.sh"
+  echo "Exit $? from $ScriptFullPath/bin/onlineTests.sh at $(date +'%Y-%m-%d %H:%M:%S')" | tee -a ${log_dir}/timewatch.log
+
 } > >(tee -a ${log_dir}/cool-compilation.log) 2> >(tee -a ${log_dir}/cool-compilation.log >&2)
 exit 0
